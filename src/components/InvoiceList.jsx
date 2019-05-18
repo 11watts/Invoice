@@ -10,6 +10,7 @@ import {
 } from 'semantic-ui-react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { deleteInvoice } from '../actions/invoiceActions';
 
 var timeOptions = {
   year: 'numeric',
@@ -58,7 +59,10 @@ const InvoiceList = () => {
                   </Button>
                 </Table.Cell>
                 <Table.Cell>
-                  <Button fluid size="large">
+                  <Button fluid size="large" color="red" onClick={() => {
+                      console.log(id)
+                      dispatch(deleteInvoice(id));
+                  }}>
                     Delete
                   </Button>
                 </Table.Cell>

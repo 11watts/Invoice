@@ -1,4 +1,4 @@
-import { SET_USER, ADD_INVOICE, EDIT_INVOICE, DELETE_INVOICE } from './../actions/types';
+import { ADD_INVOICE, EDIT_INVOICE, DELETE_INVOICE } from './../actions/types';
 
 // Hard code some fake data
 const fakeInvoices = [
@@ -57,15 +57,18 @@ const invoiceReducer = (state = initialState, action) => {
     case ADD_INVOICE: {
       const { invoice } = action;
       const id = invoice.id;
-      return { ...state, id: invoice };
+      return { ...state, [id]: invoice };
     }
     case EDIT_INVOICE: {
       const { invoice } = action;
-      return { ...state, id: invoice };
+      const id = invoice.id;
+      return { ...state, [id]: invoice };
     }
     case DELETE_INVOICE: {
-      const { invoice } = action;
-      return state.filter(e => e.id != invoice.id)
+      const { id } = action;
+      let newState = Object.assign({}, state);
+      delete newState[id];
+      return newState;
     }
     default:
       return state;
