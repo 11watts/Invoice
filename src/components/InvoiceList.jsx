@@ -3,22 +3,14 @@ import { useSelector } from 'react-redux';
 import {
   Container,
   Button,
-  Icon,
-  Message,
+  Form,
+  Segment,
   Menu,
   Table
 } from 'semantic-ui-react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { deleteInvoice } from '../actions/invoiceActions';
-
-var timeOptions = {
-  year: 'numeric',
-  month: '2-digit',
-  day: 'numeric',
-  hour: '2-digit',
-  minute: '2-digit'
-};
 
 const toDollarFormat = n => `$${(n / 100).toFixed(2)}`;
 
@@ -51,7 +43,7 @@ const InvoiceList = props => {
                 <Table.Cell>{text}</Table.Cell>
                 <Table.Cell>{toDollarFormat(amount)}</Table.Cell>
                 <Table.Cell>
-                  {date.toLocaleDateString('en', timeOptions)}
+                  {date.toISOString().slice(0,10)}
                 </Table.Cell>
                 <Table.Cell>
                   <Button
@@ -91,6 +83,31 @@ const InvoiceList = props => {
           </Table.Row>
         </Table.Footer>
       </Table>
+      <Form size="large">
+        <Segment stacked>
+        <Form.Input
+            fluid
+            label='Start Date' 
+            iconPosition="left"
+            placeholder="Confirm Password"
+            type="date"
+            name="date"
+            value={new Date(0)}
+          />
+          <Form.Input
+            fluid
+            label='Start Date' 
+            iconPosition="left"
+            placeholder="Confirm Password"
+            type="date"
+            name="date"
+            value="2012-03-23"
+          />
+          <Button color="teal" fluid size="large">
+            Add Invoice
+          </Button>
+        </Segment>
+      </Form>
       <Button as={Link} to="addinvoice" color="teal" size="large">
         Add Invoice
       </Button>

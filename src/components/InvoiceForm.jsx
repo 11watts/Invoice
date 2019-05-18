@@ -78,7 +78,6 @@ const InvoiceForm = props => {
               <Form.Input
                 fluid
                 iconPosition="left"
-                placeholder="Confirm Password"
                 type="date"
                 name="date"
                 value={inputs.date}

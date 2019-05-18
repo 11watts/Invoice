@@ -10,20 +10,15 @@ import {
 import { useDispatch } from 'react-redux';
 import {  editInvoice } from './../actions/invoiceActions';
 
-var timeOptions = {
-  year: 'numeric',
-  month: '2-digit',
-  day: 'numeric'
-};
-
 const EditInvoiceForm = props => {
   let { id, text, amount, date } = props.location.state;
   const [inputs, setInputs] = useState({
     text: text,
     amount: amount,
-    date: date.toLocaleDateString('en', timeOptions)
+    date: date.toISOString().slice(0,10)
   });
 
+  
   const dispatch = useDispatch();
 
   const handleInputChange = event => {
@@ -81,7 +76,6 @@ const EditInvoiceForm = props => {
               <Form.Input
                 fluid
                 iconPosition="left"
-                placeholder="Confirm Password"
                 type="date"
                 name="date"
                 value={inputs.date}
