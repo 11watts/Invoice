@@ -5,19 +5,23 @@ import {
   Form,
   Grid,
   Header,
-  Message,
   Segment
 } from 'semantic-ui-react';
 import { useDispatch } from 'react-redux';
-import { v4 as uuid } from 'uuid';
-import { Link } from 'react-router-dom';
-import { addInvoice } from './../actions/invoiceActions';
+import {  editInvoice } from './../actions/invoiceActions';
 
-const InvoiceForm = props => {
+var timeOptions = {
+  year: 'numeric',
+  month: '2-digit',
+  day: 'numeric'
+};
+
+const EditInvoiceForm = props => {
+  let { id, text, amount, date } = props.location.state;
   const [inputs, setInputs] = useState({
-    text: '',
-    amount: 0,
-    date: new Date()
+    text: text,
+    amount: amount,
+    date: date.toLocaleDateString('en', timeOptions)
   });
 
   const dispatch = useDispatch();
@@ -38,15 +42,14 @@ const InvoiceForm = props => {
       event.preventDefault();
     }
     let { text, amount, date } = inputs;
-    const id = uuid();
     amount = parseInt(amount);
     date = new Date(date);
-    dispatch(addInvoice({ id, text, amount, date }));
+    dispatch(editInvoice({ id, text, amount, date }));
     props.history.push('/invoice');
   };
 
   return (
-    <Container text style={{ marginTop: '10em' }}>
+    <Container text style={{ marginTop: '18em' }}>
       <Grid
         textAlign="center"
         style={{ height: '100%' }}
@@ -95,4 +98,4 @@ const InvoiceForm = props => {
   );
 };
 
-export default InvoiceForm;
+export default EditInvoiceForm;

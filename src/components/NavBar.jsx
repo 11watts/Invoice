@@ -1,15 +1,8 @@
-import React, { useCallback } from 'react';
-import { useSelector } from 'react-redux';
+import React from 'react';
 import { Container, Menu } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
 const NavBar = () => {
-  const mapState = useCallback(state => ({
-    user: state.userReducer.user
-  }));
-
-  const { user } = useSelector(mapState);
-
   return (
     <div>
       <Menu fixed="top" inverted>

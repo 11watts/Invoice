@@ -22,7 +22,7 @@ var timeOptions = {
 
 const toDollarFormat = n => `$${(n / 100).toFixed(2)}`;
 
-const InvoiceList = () => {
+const InvoiceList = props => {
   const mapState = useCallback(state => state.invoiceReducer);
 
   const invoices = useSelector(mapState);
@@ -54,15 +54,28 @@ const InvoiceList = () => {
                   {date.toLocaleDateString('en', timeOptions)}
                 </Table.Cell>
                 <Table.Cell>
-                  <Button fluid size="large">
+                  <Button
+                    fluid
+                    size="large"
+                    onClick={() => {
+                      props.history.push({
+                        pathname: '/editinvoice',
+                        state: { id, text, amount, date }
+                      });
+                    }}
+                  >
                     Edit
                   </Button>
                 </Table.Cell>
                 <Table.Cell>
-                  <Button fluid size="large" color="red" onClick={() => {
-                      console.log(id)
+                  <Button
+                    fluid
+                    size="large"
+                    color="red"
+                    onClick={() => {
                       dispatch(deleteInvoice(id));
-                  }}>
+                    }}
+                  >
                     Delete
                   </Button>
                 </Table.Cell>
