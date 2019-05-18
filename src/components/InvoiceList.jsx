@@ -1,13 +1,6 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
-import {
-  Container,
-  Button,
-  Form,
-  Segment,
-  Menu,
-  Table
-} from 'semantic-ui-react';
+import { Container, Button, Form, Segment, Table, Header } from 'semantic-ui-react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { deleteInvoice } from '../actions/invoiceActions';
@@ -15,6 +8,19 @@ import { deleteInvoice } from '../actions/invoiceActions';
 const toDollarFormat = n => `$${(n / 100).toFixed(2)}`;
 
 const InvoiceList = props => {
+  const [inputs, setInputs] = useState({
+    startDate: new Date('1990-12-31').toISOString().slice(0, 10),
+    endDate: new Date().toISOString().slice(0, 10)
+  });
+
+  const handleInputChange = event => {
+    event.persist();
+
+    setInputs(inputs => ({
+      ...inputs,
+      [event.target.name]: event.target.value
+    }));
+  };
   const mapState = useCallback(state => state.invoiceReducer);
 
   const invoices = useSelector(mapState);
@@ -38,13 +44,16 @@ const InvoiceList = props => {
           {Object.keys(invoices).map(key => {
             const { id, text, amount, date } = invoices[key];
             totalCost += amount;
+            const endTime = new Date(inputs.endDate).getTime();
+            const startTime = new Date(inputs.startDate).getTime();
+            if (date.getTime() > endTime || startTime > date.getTime()) {
+              return;
+            }
             return (
               <Table.Row key={key}>
                 <Table.Cell>{text}</Table.Cell>
                 <Table.Cell>{toDollarFormat(amount)}</Table.Cell>
-                <Table.Cell>
-                  {date.toISOString().slice(0,10)}
-                </Table.Cell>
+                <Table.Cell>{date.toISOString().slice(0, 10)}</Table.Cell>
                 <Table.Cell>
                   <Button
                     fluid
@@ -85,32 +94,32 @@ const InvoiceList = props => {
       </Table>
       <Form size="large">
         <Segment stacked>
-        <Form.Input
+          <Header as='h3'>Filter Invoices</Header>
+          <Form.Input
             fluid
-            label='Start Date' 
+            label="Start Date"
             iconPosition="left"
             placeholder="Confirm Password"
             type="date"
-            name="date"
-            value={new Date(0)}
+            name="startDate"
+            onChange={handleInputChange}
+            value={inputs.startDate}
           />
           <Form.Input
             fluid
-            label='Start Date' 
+            label="End Date"
             iconPosition="left"
             placeholder="Confirm Password"
             type="date"
-            name="date"
-            value="2012-03-23"
+            name="endDate"
+            onChange={handleInputChange}
+            value={inputs.endDate}
           />
-          <Button color="teal" fluid size="large">
-            Add Invoice
-          </Button>
         </Segment>
+        <Button as={Link} to="addinvoice" color="teal" size="large">
+          Add Invoice
+        </Button>
       </Form>
-      <Button as={Link} to="addinvoice" color="teal" size="large">
-        Add Invoice
-      </Button>
     </Container>
   );
 };

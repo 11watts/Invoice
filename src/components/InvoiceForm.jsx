@@ -5,12 +5,10 @@ import {
   Form,
   Grid,
   Header,
-  Message,
   Segment
 } from 'semantic-ui-react';
 import { useDispatch } from 'react-redux';
 import { v4 as uuid } from 'uuid';
-import { Link } from 'react-router-dom';
 import { addInvoice } from './../actions/invoiceActions';
 
 const InvoiceForm = props => {

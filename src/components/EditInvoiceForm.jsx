@@ -52,7 +52,7 @@ const EditInvoiceForm = props => {
       >
         <Grid.Column style={{ maxWidth: 450 }}>
           <Header as="h2" color="teal" textAlign="center">
-            Create a new Invoice
+            Edit Invoice
           </Header>
           <Form size="large" onSubmit={handleSubmit}>
             <Segment stacked>
